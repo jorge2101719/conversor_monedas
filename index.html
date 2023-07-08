@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertir Monedas</title>
+    <!-- liga estilos -->
+    <link rel="stylesheet" href="assets/css/estilos.css">
+</head>
+<body>
+
+
+    <div class="container">
+    
+        <h1>Conversor de Monedas</h1>
+
+        <div class="card">
+
+            <h2>Pesos CLP</h2>
+            <input type="number" name="pesos" min="0" id="pesos">
+
+            <h4>Moneda a convertir</h4>
+
+            <select name="moneda" id="monedaSeleccionada">
+                <option value="" default="true">Seleccione una de las opciones</option>
+                <option value="uf">Unidad de Fomento (UF)</option>
+                <option value="dolar">Dolar</option>
+                <option value="euro">Euro</option>
+            </select>
+
+            <button id="buscar">Buscar</button>
+            <p id="calculo">...</p>
+            <button id="limpiar">Limpiar</button>
+        </div>
+
+        <div id="grafico">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <script src="mindicador.json"></script>
+    <script src="assets/js/script.js"></script>
+    
+</body>
+</html>
