@@ -66,8 +66,9 @@ async function getAndCreateDataToChart(tipo_indicador) {
     const res = await fetch(urlIndicadores + tipo_indicador);
     const valoresIndicador = await res.json();
 
-    const labels = valoresIndicador['serie'].slice(0,10).reverse().map((valorDelDia) => {
-        return valorDelDia['fecha'].slice(0,10);
+    const labels = valoresIndicador['serie'].slice(0,10).reverse().map((fechaDelDia) => {
+        // console.log(fechaDelDia.fecha.slice(0,10).split('-').reverse().join('-'));
+        return fechaDelDia['fecha'].slice(0,10).split('-').reverse().join('-');
     });
 
     const data = valoresIndicador['serie'].slice(0,10).reverse().map((valorDelDia) => {
