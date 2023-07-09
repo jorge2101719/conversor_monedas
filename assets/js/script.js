@@ -42,7 +42,7 @@ async function getValores() {
             // renderGrafica('euro');
         }
     } catch(e) {
-        alert(e.name, e.message)
+        alert(e.message)
     }// finally {
        // console.log('Ha finalizado su petición...');
     //}
@@ -59,20 +59,17 @@ async function getAndCreateDataToChart(tipo_indicador) {
     const res = await fetch(urlIndicadores + tipo_indicador);
     const valoresIndicador = await res.json();
     // console.log('petición para graficar', valoresIndicador['serie']);
-    const valoresObtenidos = valoresIndicador['serie'].map((valorDelDia) => {
-        console.log(`el valor de la uf el día ${valorDelDia.fecha} fue de ${valorDelDia.valor}`);
-        return valorDelDia['valor'];
-    });
-    // console.log(valoresObtenidos);
 
-    const datos = valores.map((valor) => {
-        return valor.fecha;
+    const labels = valoresIndicador['serie'].map((valorDelDia) => {
+        // console.log(`el valor de la uf el día ${valorDelDia.fecha} fue de ${valorDelDia.valor}`);
+        return valorDelDia['fecha'];
     });
+    console.log(labels);
 
-    const data = valores.map((valor) => {
-        const fecha = valor.fecha.split('')[0];
-        return fecha;
+    const data = valoresIndicador['serie'].map((valorDelDia) => {
+        return Number(valorDelDia['valor']);
     });
+    console.log(data);
 
     const datasets = [
         {
