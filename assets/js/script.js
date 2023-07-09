@@ -5,17 +5,14 @@ let limpiar = document.querySelector('#limpiar');
 let resultado = 0;
 let calculo = document.querySelector('#calculo');
 
-const urlIndicadores = 'https://mindicador.cl/api';
-
+const urlIndicadores = 'https://mindicador.cl/api/';
 
 buscar.addEventListener('click', () => {
     let monto = Number(pesos.value);
-    console.log(monto);
     if (monto == isNaN) {
         alert('El dato es incorrecto. Ingrese un número');
     } else {
         getValores();
-        getAndCreateDataToChart();
     }
 });
 
@@ -24,23 +21,31 @@ limpiar.addEventListener('click', () => {
 })
 
 async function getValores() {
-    const res = await fetch(urlIndicadores);
-    const valores = await res.json();
-    // console.log('petición hecha', valores);
-    const miListaDeValores = [valores['uf']['valor'], valores['dolar']['valor'], valores['euro']['valor']];
-    // console.log('esta es mi lista de valores', miListaDeValores);
-    if (moneda.value == '' || Number(moneda.value) == isNaN) {
-        alert('Valor incorrecto. Por favor, ingrese un valor positivo');
-    } else if (moneda.value == 'uf') {
-        resultado = pesos.value/miListaDeValores[0];
-        calculo.innerHTML = `${resultado.toFixed(4)} UF`;
-    } else if (moneda.value == 'dolar') {
-        resultado = pesos.value/miListaDeValores[1];
-        calculo.innerHTML = `US $ ${resultado.toFixed(2)}`;
-    } else if (moneda.value == 'euro') {
-        resultado = pesos.value/miListaDeValores[2];
-        calculo.innerHTML = `&euro; ${resultado.toFixed(2)}`
-    }
+    try{
+        const res = await fetch(urlIndicadores);
+        const valores = await res.json();
+        const miListaDeValores = [valores['uf']['valor'], valores['dolar']['valor'], valores['euro']['valor']];
+        if (moneda.value == '' || Number(moneda.value) == isNaN) {
+            alert('Valor incorrecto. Por favor, ingrese un valor positivo');
+        } else if (moneda.value == 'uf') {
+            resultado = pesos.value/miListaDeValores[0];
+            calculo.innerHTML = `${resultado.toFixed(4).replace('.', ',')} UF`;
+            getAndCreateDataToChart('uf');
+            // renderGrafica('uf');
+        } else if (moneda.value == 'dolar') {
+            resultado = pesos.value/miListaDeValores[1];
+            calculo.innerHTML = `US $ ${resultado.toFixed(2).replace('.', ',')}`;
+            // renderGrafica('dolar');
+        } else if (moneda.value == 'euro') {
+            resultado = pesos.value/miListaDeValores[2];
+            calculo.innerHTML = `&euro; ${resultado.toFixed(2).replace('.', ',')}`;
+            // renderGrafica('euro');
+        }
+    } catch(e) {
+        alert(e.name, e.message)
+    }// finally {
+       // console.log('Ha finalizado su petición...');
+    //}
 }
 
 function limpiarCampos(){
@@ -48,12 +53,98 @@ function limpiarCampos(){
     moneda.value = '';
 }
 
-// 
+// --------------------------------------------------------
 
-async function getAndCreateDataToChart() {
-    const res = await fetch(urlIndicadores);
-    const data = await res.json();
-    console.log('petición para graficar', data);
+async function getAndCreateDataToChart(tipo_indicador) {
+    const res = await fetch(urlIndicadores + tipo_indicador);
+    const valoresIndicador = await res.json();
+    // console.log('petición para graficar', valoresIndicador['serie']);
+    const valoresObtenidos = valoresIndicador['serie'].map((valorDelDia) => {
+        console.log(`el valor de la uf el día ${valorDelDia.fecha} fue de ${valorDelDia.valor}`);
+        return valorDelDia['valor'];
+    });
+    // console.log(valoresObtenidos);
+
+    const datos = valores.map((valor) => {
+        return valor.fecha;
+    });
+
+    const data = valores.map((valor) => {
+        const fecha = valor.fecha.split('')[0];
+        return fecha;
+    });
+
+    const datasets = [
+        {
+            label: `${indicador}`,
+            borderColor: rgb(255, 99, 132),
+            data
+        }
+    ];
+    return {labels, datasets}
 }
 
-// getAndCreateDataToChart();
+async function renderGrafica(indicador) {
+    const data = await getAndCreateDataToChart(indicador);
+    const config = {
+        type: 'line',
+        data
+    };
+
+    const myChart = document.querySelector('#myChart');
+    myChart.style.backgroundColor = 'white';
+    new Chart(myChart, config);
+}
+
+// renderGrafica();
+
+
+
+
+
+
+
+
+// $('#myChart').ready(function (indicador) {
+    // var dataPoints = [];
+// 
+    // var options = {
+        // animationEnabled: true,
+        // theme: "light2",
+        // title: {
+            // text: "Precio del euro últimos 31 días"
+        // },
+        // axisX: {
+            // valueFormatString: "DD MMM YYYY",
+        // },
+        // axisY: {
+            // title: `${indicador}`,
+            // titleFontSize: 24,
+        // },
+        // data: [{
+            // type: "spline",
+            // yValueFormatString: "$#,###.##",
+            // dataPoints: dataPoints
+        // }]
+    // };
+// 
+    // $.ajax({
+        // type: "GET",
+        // url: urlIndicadores + indicador,
+        // dataType: "json",
+        // success: function (datos) {
+            // let datosApi = datos.serie;
+            // console.log(datosApi);
+            // for (var i = 0; i < datosApi.length; i++) {
+                // dataPoints.push({
+                    // x: new Date(datosApi[i].fecha),
+                    // y: datosApi[i].valor
+                // });
+            // }
+            // $("#chartContainer").CanvasJSChart(options);
+        // },
+        // error: function (error) {
+            // console.log(error);
+        // }
+    // });
+// });
