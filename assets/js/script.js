@@ -54,10 +54,10 @@ function limpiarCampos(){
     moneda.value = '';
     calculo.innerHTML = '...';
     // myChart.innerHTML = new Chart();
-    grafico.style.width = 0;
-    grafico.style.height = 0;
-    myChart.style.width = 0;
-    myChart.style.height = 0;
+    // grafico.style.width = 0;
+    // grafico.style.height = 0;
+    // myChart.style.width = 0;
+    // myChart.style.height = 0;
 }
 
 // --------------------------------------------------------
@@ -65,22 +65,18 @@ function limpiarCampos(){
 async function getAndCreateDataToChart(tipo_indicador) {
     const res = await fetch(urlIndicadores + tipo_indicador);
     const valoresIndicador = await res.json();
-    // console.log('petición para graficar', valoresIndicador['serie']);
 
-    const labels = valoresIndicador['serie'].map((valorDelDia) => {
-        // console.log(`el valor de la uf el día ${valorDelDia.fecha} fue de ${valorDelDia.valor}`);
-        return valorDelDia['fecha'];
+    const labels = valoresIndicador['serie'].slice(0,10).reverse().map((valorDelDia) => {
+        return valorDelDia['fecha'].slice(0,10);
     });
-    console.log(labels);
 
-    const data = valoresIndicador['serie'].map((valorDelDia) => {
+    const data = valoresIndicador['serie'].slice(0,10).reverse().map((valorDelDia) => {
         return Number(valorDelDia['valor']);
     });
-    // console.log(data);
 
     const datasets = [
         {
-            label: tipo_indicador,
+            label: `Valor ${tipo_indicador} últimos 10 días`,
             borderColor: 'rgb(255, 99, 132)',
             data
         }
@@ -94,8 +90,7 @@ async function renderGrafica(indicador) {
         type: 'line',
         data
     };
-
     // myChart = document.querySelector('#myChart');
     myChart.style.backgroundColor = 'white';
-    new Chart(myChart, config);
+    myChart.innerHTML = new Chart(myChart, config);
 }
