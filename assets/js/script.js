@@ -64,16 +64,16 @@ async function getAndCreateDataToChart(tipo_indicador) {
         // console.log(`el valor de la uf el día ${valorDelDia.fecha} fue de ${valorDelDia.valor}`);
         return valorDelDia['fecha'];
     });
-    // console.log(labels);
+    console.log(labels);
 
     const data = valoresIndicador['serie'].map((valorDelDia) => {
         return Number(valorDelDia['valor']);
     });
-    console.log(data);
+    // console.log(data);
 
     const datasets = [
         {
-            label: 'UF',
+            label: tipo_indicador,
             borderColor: 'rgb(255, 99, 132)',
             data
         }
