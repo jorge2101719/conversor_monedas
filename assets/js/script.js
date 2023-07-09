@@ -30,7 +30,7 @@ async function getValores() {
         } else if (moneda.value == 'uf') {
             resultado = pesos.value/miListaDeValores[0];
             calculo.innerHTML = `${resultado.toFixed(4).replace('.', ',')} UF`;
-            getAndCreateDataToChart('uf');
+            renderGrafica('uf');
             // renderGrafica('uf');
         } else if (moneda.value == 'dolar') {
             resultado = pesos.value/miListaDeValores[1];
@@ -64,7 +64,7 @@ async function getAndCreateDataToChart(tipo_indicador) {
         // console.log(`el valor de la uf el día ${valorDelDia.fecha} fue de ${valorDelDia.valor}`);
         return valorDelDia['fecha'];
     });
-    console.log(labels);
+    // console.log(labels);
 
     const data = valoresIndicador['serie'].map((valorDelDia) => {
         return Number(valorDelDia['valor']);
@@ -73,8 +73,8 @@ async function getAndCreateDataToChart(tipo_indicador) {
 
     const datasets = [
         {
-            label: `${indicador}`,
-            borderColor: rgb(255, 99, 132),
+            label: 'UF',
+            borderColor: 'rgb(255, 99, 132)',
             data
         }
     ];
