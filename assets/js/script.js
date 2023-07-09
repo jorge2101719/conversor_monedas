@@ -4,6 +4,8 @@ let buscar = document.querySelector('#buscar');
 let limpiar = document.querySelector('#limpiar');
 let resultado = 0;
 let calculo = document.querySelector('#calculo');
+let grafico = document.querySelector('#grafico');
+let myChart = document.querySelector('#myChart');
 
 const urlIndicadores = 'https://mindicador.cl/api/';
 
@@ -31,26 +33,31 @@ async function getValores() {
             resultado = pesos.value/miListaDeValores[0];
             calculo.innerHTML = `${resultado.toFixed(4).replace('.', ',')} UF`;
             renderGrafica('uf');
-            // renderGrafica('uf');
         } else if (moneda.value == 'dolar') {
             resultado = pesos.value/miListaDeValores[1];
             calculo.innerHTML = `US $ ${resultado.toFixed(2).replace('.', ',')}`;
-            // renderGrafica('dolar');
+            renderGrafica('dolar');
         } else if (moneda.value == 'euro') {
             resultado = pesos.value/miListaDeValores[2];
             calculo.innerHTML = `&euro; ${resultado.toFixed(2).replace('.', ',')}`;
-            // renderGrafica('euro');
+            renderGrafica('euro');
         }
     } catch(e) {
         alert(e.message)
-    }// finally {
-       // console.log('Ha finalizado su petición...');
-    //}
+    } finally {
+       console.log('Ha finalizado su petición...');
+    }
 }
 
 function limpiarCampos(){
     pesos.value = '';
     moneda.value = '';
+    calculo.innerHTML = '...';
+    // myChart.innerHTML = new Chart();
+    grafico.style.width = 0;
+    grafico.style.height = 0;
+    myChart.style.width = 0;
+    myChart.style.height = 0;
 }
 
 // --------------------------------------------------------
@@ -88,60 +95,7 @@ async function renderGrafica(indicador) {
         data
     };
 
-    const myChart = document.querySelector('#myChart');
+    // myChart = document.querySelector('#myChart');
     myChart.style.backgroundColor = 'white';
     new Chart(myChart, config);
 }
-
-// renderGrafica();
-
-
-
-
-
-
-
-
-// $('#myChart').ready(function (indicador) {
-    // var dataPoints = [];
-// 
-    // var options = {
-        // animationEnabled: true,
-        // theme: "light2",
-        // title: {
-            // text: "Precio del euro últimos 31 días"
-        // },
-        // axisX: {
-            // valueFormatString: "DD MMM YYYY",
-        // },
-        // axisY: {
-            // title: `${indicador}`,
-            // titleFontSize: 24,
-        // },
-        // data: [{
-            // type: "spline",
-            // yValueFormatString: "$#,###.##",
-            // dataPoints: dataPoints
-        // }]
-    // };
-// 
-    // $.ajax({
-        // type: "GET",
-        // url: urlIndicadores + indicador,
-        // dataType: "json",
-        // success: function (datos) {
-            // let datosApi = datos.serie;
-            // console.log(datosApi);
-            // for (var i = 0; i < datosApi.length; i++) {
-                // dataPoints.push({
-                    // x: new Date(datosApi[i].fecha),
-                    // y: datosApi[i].valor
-                // });
-            // }
-            // $("#chartContainer").CanvasJSChart(options);
-        // },
-        // error: function (error) {
-            // console.log(error);
-        // }
-    // });
-// });
