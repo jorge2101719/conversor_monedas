@@ -19,6 +19,12 @@ body {
     text-align: center;
 }
 
+#pesos, #monedaSeleccionada {
+    padding: 1%;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
 #calculo {
     font-size: 2rem;
 }

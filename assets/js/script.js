@@ -4,6 +4,7 @@ let buscar = document.querySelector('#buscar');
 let limpiar = document.querySelector('#limpiar');
 let resultado = 0;
 let calculo = document.querySelector('#calculo');
+let mensaje = document.querySelector('#mensaje');
 let info = document.querySelector('#info');
 let grafico = document.querySelector('#grafico');
 let dibuno = document.querySelector('#dibuno');
@@ -32,6 +33,7 @@ async function getValores() {
         const res = await fetch(urlIndicadores);
         const valores = await res.json();
         const miListaDeValores = [valores['uf']['valor'], valores['dolar']['valor'], valores['euro']['valor']];
+        mensaje.innerHTML = `$${pesos.value} equivalen a: `;
         if (moneda.value == 'uf') {
             resultado = pesos.value/miListaDeValores[0];
             calculo.innerHTML = `${resultado.toFixed(4).replace('.', ',')} UF`;
