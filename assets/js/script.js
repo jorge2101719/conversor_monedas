@@ -32,7 +32,7 @@ async function getValores() {
     try{
         const res = await fetch(urlIndicadores);
         const valores = await res.json();
-        const miListaDeValores = [valores['uf']['valor'], valores['dolar']['valor'], valores['euro']['valor']];
+        const miListaDeValores = [valores.uf.valor, valores.dolar.valor, valores.euro.valor];
         mensaje.innerHTML = `$${pesos.value} equivalen a: `;
         if (moneda.value == 'uf') {
             resultado = pesos.value/miListaDeValores[0];
@@ -63,18 +63,18 @@ function limpiarCampos(){
 // --------------------------------------------------------
 
 async function getAndCreateDataToChart(tipo_indicador) {
-    const res = await fetch(urlIndicadores + tipo_indicador);
-    const valoresIndicador = await res.json();
+    let res = await fetch(urlIndicadores + tipo_indicador);
+    let valoresIndicador = await res.json();
 
-    const labels = valoresIndicador['serie'].slice(0,10).reverse().map((fechaDelDia) => {
-        return fechaDelDia['fecha'].slice(0,10).split('-').reverse().join('-');
+    let labels = valoresIndicador.serie.slice(0,10).reverse().map((fechaDelDia) => {
+        return fechaDelDia.fecha.slice(0,10).split('-').reverse().join('-');
     });
 
-    const data = valoresIndicador['serie'].slice(0,10).reverse().map((valorDelDia) => {
-        return Number(valorDelDia['valor']);
+    let data = valoresIndicador.serie.slice(0,10).reverse().map((valorDelDia) => {
+        return Number(valorDelDia.valor);
     });
 
-    const datasets = [
+    let datasets = [
         {
             label: `Valor ${tipo_indicador} últimos 10 días`,
             borderColor: 'rgb(54, 162, 235)',
@@ -85,8 +85,8 @@ async function getAndCreateDataToChart(tipo_indicador) {
 }
 
 async function renderGrafica(indicador) {
-    const data = await getAndCreateDataToChart(indicador);
-    const config = {
+    let data = await getAndCreateDataToChart(indicador);
+    let config = {
         type: 'line',
         data
     };
