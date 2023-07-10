@@ -55,11 +55,6 @@ function limpiarCampos(){
     pesos.value = '';
     moneda.value = '';
     calculo.innerHTML = '...';
-    // myChart.innerHTML = new Chart();
-    grafico.style.width = 0;
-    grafico.style.height = 0;
-    myChart.style.width = 0;
-    myChart.style.height = 0;
 }
 
 // --------------------------------------------------------
@@ -93,8 +88,6 @@ async function renderGrafica(indicador) {
         type: 'line',
         data
     };
-    // myChart = document.querySelector('#myChart');
-    // dibuno.style.backgroundColor = 'lightYellow';
     if(indicador == 'uf') {
         dibuno.style.backgroundColor = 'white';
         new Chart(dibuno, config);
