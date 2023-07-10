@@ -78,7 +78,6 @@ async function getAndCreateDataToChart(tipo_indicador) {
         {
             label: `Valor ${tipo_indicador} últimos 10 días`,
             borderColor: 'rgb(54, 162, 235)',
-            backgroundColor: 'white',
             data
         }
     ];
@@ -100,7 +99,7 @@ async function renderGrafica(indicador) {
         new Chart(dibdos, config);
     } else if(indicador == 'euro') {
         dibtres.style.backgroundColor = 'lightyellow';
-        new Chart(dibtres, config)
+        new Chart(dibtres, config);
+
     }
-    // new Chart(dibuno, config);
 }
