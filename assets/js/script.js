@@ -5,7 +5,9 @@ let limpiar = document.querySelector('#limpiar');
 let resultado = 0;
 let calculo = document.querySelector('#calculo');
 let grafico = document.querySelector('#grafico');
-let myChart = document.querySelector('#myChart');
+let dibuno = document.querySelector('#dibuno');
+let dibdos = document.querySelector('#dibdos');
+let dibtres = document.querySelector('#dibtres');
 
 const urlIndicadores = 'https://mindicador.cl/api/';
 
@@ -54,10 +56,10 @@ function limpiarCampos(){
     moneda.value = '';
     calculo.innerHTML = '...';
     // myChart.innerHTML = new Chart();
-    // grafico.style.width = 0;
-    // grafico.style.height = 0;
-    // myChart.style.width = 0;
-    // myChart.style.height = 0;
+    grafico.style.width = 0;
+    grafico.style.height = 0;
+    myChart.style.width = 0;
+    myChart.style.height = 0;
 }
 
 // --------------------------------------------------------
@@ -67,7 +69,6 @@ async function getAndCreateDataToChart(tipo_indicador) {
     const valoresIndicador = await res.json();
 
     const labels = valoresIndicador['serie'].slice(0,10).reverse().map((fechaDelDia) => {
-        // console.log(fechaDelDia.fecha.slice(0,10).split('-').reverse().join('-'));
         return fechaDelDia['fecha'].slice(0,10).split('-').reverse().join('-');
     });
 
@@ -78,7 +79,8 @@ async function getAndCreateDataToChart(tipo_indicador) {
     const datasets = [
         {
             label: `Valor ${tipo_indicador} últimos 10 días`,
-            borderColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(54, 162, 235)',
+            backgroundColor: 'white',
             data
         }
     ];
@@ -92,6 +94,16 @@ async function renderGrafica(indicador) {
         data
     };
     // myChart = document.querySelector('#myChart');
-    myChart.style.backgroundColor = 'white';
-    myChart.innerHTML = new Chart(myChart, config);
+    // dibuno.style.backgroundColor = 'lightYellow';
+    if(indicador == 'uf') {
+        dibuno.style.backgroundColor = 'white';
+        new Chart(dibuno, config);
+    } else if(indicador == 'dolar') {
+        dibdos.style.backgroundColor = 'lightblue';
+        new Chart(dibdos, config);
+    } else if(indicador == 'euro') {
+        dibtres.style.backgroundColor = 'lightyellow';
+        new Chart(dibtres, config)
+    }
+    // new Chart(dibuno, config);
 }
