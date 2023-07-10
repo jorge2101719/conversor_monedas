@@ -19,6 +19,15 @@ body {
     text-align: center;
 }
 
+#calculo {
+    font-size: 2rem;
+}
+
+#info {
+    margin: 5%;
+    font-size: 2rem;
+}
+
 #grafico{
     width: 80%;
     margin-top: 5%;

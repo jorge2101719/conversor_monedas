@@ -4,6 +4,7 @@ let buscar = document.querySelector('#buscar');
 let limpiar = document.querySelector('#limpiar');
 let resultado = 0;
 let calculo = document.querySelector('#calculo');
+let info = document.querySelector('#info');
 let grafico = document.querySelector('#grafico');
 let dibuno = document.querySelector('#dibuno');
 let dibdos = document.querySelector('#dibdos');
@@ -12,11 +13,13 @@ let dibtres = document.querySelector('#dibtres');
 const urlIndicadores = 'https://mindicador.cl/api/';
 
 buscar.addEventListener('click', () => {
-    let monto = Number(pesos.value);
-    if (monto == isNaN) {
-        alert('El dato es incorrecto. Ingrese un número');
+    if (pesos.value == '' || Number(pesos.value) < 0) {
+        alert('La cantidad es icorrecta. Por favor, ingrese un valor positivo');
+    } else if (moneda.value == '') {
+        alert("Por favor seleccione una moneda");
     } else {
         getValores();
+        info.innerHTML = `El gráfico aparece más abajo (${moneda.value})`;
     }
 });
 
@@ -29,9 +32,7 @@ async function getValores() {
         const res = await fetch(urlIndicadores);
         const valores = await res.json();
         const miListaDeValores = [valores['uf']['valor'], valores['dolar']['valor'], valores['euro']['valor']];
-        if (moneda.value == '' || Number(moneda.value) == isNaN) {
-            alert('Valor incorrecto. Por favor, ingrese un valor positivo');
-        } else if (moneda.value == 'uf') {
+        if (moneda.value == 'uf') {
             resultado = pesos.value/miListaDeValores[0];
             calculo.innerHTML = `${resultado.toFixed(4).replace('.', ',')} UF`;
             renderGrafica('uf');
