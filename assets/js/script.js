@@ -88,6 +88,7 @@ async function renderGrafica(indicador) {
         type: 'line',
         data
     };
+
     if(indicador == 'uf') {
         dibuno.style.backgroundColor = 'white';
         new Chart(dibuno, config);
