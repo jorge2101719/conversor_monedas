@@ -20,7 +20,6 @@ buscar.addEventListener('click', () => {
         alert("Por favor seleccione una moneda");
     } else {
         getValores();
-        // info.innerHTML = `El gráfico aparece más abajo (${moneda.value})`;
     }
 });
 
