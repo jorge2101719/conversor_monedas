@@ -5,8 +5,8 @@ let limpiar = document.querySelector('#limpiar');
 let resultado = 0;
 let calculo = document.querySelector('#calculo');
 let mensaje = document.querySelector('#mensaje');
-let info = document.querySelector('#info');
 let grafico = document.querySelector('#grafico');
+let miGrafico = document.querySelector('#miGrafico');
 let dibuno = document.querySelector('#dibuno');
 let dibdos = document.querySelector('#dibdos');
 let dibtres = document.querySelector('#dibtres');
@@ -20,7 +20,7 @@ buscar.addEventListener('click', () => {
         alert("Por favor seleccione una moneda");
     } else {
         getValores();
-        info.innerHTML = `El gráfico aparece más abajo (${moneda.value})`;
+        // info.innerHTML = `El gráfico aparece más abajo (${moneda.value})`;
     }
 });
 
@@ -32,6 +32,7 @@ async function getValores() {
     try{
         const res = await fetch(urlIndicadores);
         const valores = await res.json();
+        // 
         const miListaDeValores = [valores.uf.valor, valores.dolar.valor, valores.euro.valor];
         mensaje.innerHTML = `$${pesos.value} equivalen a: `;
         if (moneda.value == 'uf') {
@@ -91,14 +92,16 @@ async function renderGrafica(indicador) {
         data
     };
 
+    // Los gráficos se dibujan en diferentes espacios,
+    // pues puede haber un cliente que desee apreciar más de uno en una consulta
     if(indicador == 'uf') {
         dibuno.style.backgroundColor = 'white';
         new Chart(dibuno, config);
     } else if(indicador == 'dolar') {
-        dibdos.style.backgroundColor = 'lightblue';
+        dibdos.style.backgroundColor = 'white';
         new Chart(dibdos, config);
     } else if(indicador == 'euro') {
-        dibtres.style.backgroundColor = 'lightyellow';
+        dibtres.style.backgroundColor = 'white';
         new Chart(dibtres, config);
 
     }
