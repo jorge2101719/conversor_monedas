@@ -6,7 +6,7 @@ let resultado = 0;
 let calculo = document.querySelector('#calculo');
 let mensaje = document.querySelector('#mensaje');
 let grafico = document.querySelector('#grafico');
-let miGrafico = document.querySelector('#miGrafico');
+// 
 let dibuno = document.querySelector('#dibuno');
 let dibdos = document.querySelector('#dibdos');
 let dibtres = document.querySelector('#dibtres');
