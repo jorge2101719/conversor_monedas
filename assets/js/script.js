@@ -102,6 +102,5 @@ async function renderGrafica(indicador) {
     } else if(indicador == 'euro') {
         dibtres.style.backgroundColor = 'white';
         new Chart(dibtres, config);
-
     }
 }
